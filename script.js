@@ -59,3 +59,12 @@ fetch('posts.json')
     document.getElementById('postList').innerHTML =
       '<p class="muted">Aucun article pour le moment.</p>';
   });
+// Masquer la section Projets si aucune carte
+(() => {
+  const grid = document.getElementById('projectGrid');
+  if (grid && grid.children.length === 0) {
+    const section = document.getElementById('projects');
+    if (section) section.style.display = 'none';
+  }
+})();
+
