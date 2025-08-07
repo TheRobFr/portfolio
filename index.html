@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Robin — Génétique × IA</title>
-  <meta name="description" content="Portfolio de Robin — Master 1 de génétique, IA appliquée aux sciences de la vie, réflexions et projets." />
+  <title><!-- TODO: Votre nom --> — Portfolio</title>
+  <meta name="description" content="<!-- TODO: phrase courte de description du site (150–160 caractères) -->" />
   <link rel="icon" href="assets/favicon.png" />
   <link rel="preload" href="styles.css" as="style" />
   <link rel="stylesheet" href="styles.css" />
 
   <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Robin — Génétique × IA" />
-  <meta property="og:description" content="Portfolio de Robin : projets, notes de lecture, IA en santé." />
+  <meta property="og:title" content="<!-- TODO: Titre OG (Votre nom — Portfolio) -->" />
+  <meta property="og:description" content="<!-- TODO: Résumé OG -->" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/avatar.jpg" />
+  <meta property="og:image" content="assets/og.png" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- JSON-LD -->
@@ -21,18 +21,21 @@
   {
     "@context":"https://schema.org",
     "@type":"Person",
-    "name":"Robin",
-    "jobTitle":"Étudiant en Master de Génétique",
-    "url":"https://ton-domaine.fr/",
-    "image":"https://ton-domaine.fr/assets/avatar.jpg",
-    "sameAs":["https://www.linkedin.com/in/tonprofil","https://github.com/tonpseudo"]
+    "name":"<!-- TODO: Votre nom -->",
+    "jobTitle":"<!-- TODO: Votre titre/études -->",
+    "url":"<!-- TODO: URL finale du site, sinon laissez vide -->",
+    "image":"assets/avatar.jpg",
+    "sameAs":[
+      "https://www.linkedin.com/in/<!-- TODO -->",
+      "https://github.com/<!-- TODO -->"
+    ]
   }
   </script>
 </head>
 
 <body>
   <header class="site-header">
-    <a class="brand" href="#home">Robin</a>
+    <a class="brand" href="#home"><!-- TODO: Votre nom court --></a>
     <nav class="nav">
       <a href="#home">Accueil</a>
       <a href="#about">À propos</a>
@@ -45,41 +48,34 @@
 
   <main id="home" class="hero">
     <div class="hero__text">
-      <h1>Génétique × IA</h1>
-      <p class="kicker">Construire des ponts entre biologie moléculaire, data science et produits scientifiques.</p>
-      <p class="pitch">
-        Master 1 de génétique (Magistère Européen de Génétique, Université Paris Cité).  
-        Focus : intégration multi-omics, ML pour la découverte de cibles, rigueur expérimentale & impact produit.
-      </p>
+      <h1><!-- TODO: Tagline (ex. Génétique × IA) --></h1>
+      <p class="kicker"><!-- TODO: Sous-titre percutant (1 ligne) --></p>
+      <p class="pitch"><!-- TODO: Elevator pitch (2–3 phrases max). Écris le plus tard. --></p>
       <div class="cta">
         <a class="btn" href="#projects">Voir mes projets</a>
         <a class="btn btn--ghost" href="#posts">Lire mes réflexions</a>
       </div>
       <div class="meta">
-        <span class="tag">Biologie computationnelle</span>
-        <span class="tag">Machine Learning</span>
-        <span class="tag">Hématologie</span>
-        <span class="tag">Product mindset</span>
+        <!-- TODO: 3–5 tags max -->
+        <span class="tag">#à-compléter</span>
+        <span class="tag">#à-compléter</span>
+        <span class="tag">#à-compléter</span>
       </div>
     </div>
-    <img class="hero__img" src="assets/avatar.jpg" alt="Portrait de Robin" />
+    <img class="hero__img" src="assets/avatar.jpg" alt="<!-- TODO: portrait descriptif (ex. Portrait de Votre Nom) -->" />
   </main>
 
   <section id="about" class="section section--grid">
     <h2>À propos</h2>
-    <p>
-      Étudiant en génétique avec une trajectoire hybride vers l’IA appliquée à la santé. J’explore les usages concrets
-      du ML pour la découverte de cibles et la priorisation fonctionnelle (organoïdes, modèles 3D, scRNA-seq, spatial omics).
-      Vision orientée produit : transformer des données biologiques en décisions opérationnelles.
-    </p>
+    <p><!-- TODO: Présentation courte (4–6 phrases). Pas d’infos sensibles tant que c’est public. --></p>
     <ul class="facts">
-      <li><strong>Actuel :</strong> M1 Génétique (Magistère Européen de Génétique, Université Paris Cité)</li>
-      <li><strong>Formation complémentaire :</strong> DU “IA en santé : du médicament au patient” (Paris-Saclay)</li>
-      <li><strong>Centres d’intérêt :</strong> génomique, hématologie, méthodes ML, stratégie R&D</li>
-      <li><strong>Objectif 2030 :</strong> rôle de <em>Scientific Product/Strategy Lead</em> à l’interface bio × IA</li>
+      <li><strong>Actuel :</strong> <!-- TODO --></li>
+      <li><strong>Formation complémentaire :</strong> <!-- TODO --></li>
+      <li><strong>Intérêts :</strong> <!-- TODO --></li>
+      <li><strong>Objectif :</strong> <!-- TODO --></li>
     </ul>
     <div class="about__cta">
-      <a class="btn" href="assets/Robin_CV.pdf" download>Télécharger mon CV</a>
+      <a class="btn" href="assets/CV.pdf" download>Télécharger mon CV</a>
       <a class="btn btn--ghost" href="#contact">Me contacter</a>
     </div>
   </section>
@@ -96,65 +92,45 @@
     </div>
 
     <div class="cards" id="projectGrid">
-      <!-- Exemples : duplique/édite au besoin -->
+      <!--
+      MODELE DE CARTE PROJET (dupliquer et remplir) :
       <article class="card" data-tags="ml prod">
-        <h3>Priorisation de cibles en hématologie</h3>
-        <p class="card__desc">Intégration scRNA-seq + littérature pour scorer des cibles potentielles. Pipeline Python, analyse de pathways, critères d’actionnabilité.</p>
+        <h3><!-- TODO: Titre du projet --></h3>
+        <p class="card__desc"><!-- TODO: 2–3 phrases : contexte, rôle, résultat --></p>
         <ul class="card__meta">
-          <li>Python, Scanpy</li><li>Pandas</li><li>Pathway enrichment</li>
+          <li><!-- TODO: Tech/compétence --></li>
+          <li><!-- TODO --></li>
         </ul>
         <div class="card__actions">
-          <a class="btn btn--sm" href="#" aria-disabled="true">Demo à venir</a>
-          <a class="btn btn--sm btn--ghost" href="#" aria-disabled="true">Code privé</a>
+          <a class="btn btn--sm" href="<!-- TODO: lien demo ou doc -->" target="_blank" rel="noreferrer">Voir</a>
+          <a class="btn btn--sm btn--ghost" href="<!-- TODO: repo/code -->" target="_blank" rel="noreferrer">Code</a>
         </div>
       </article>
-
-      <article class="card" data-tags="bio">
-        <h3>École d’été en hématologie</h3>
-        <p class="card__desc">Cytométrie de flux, dissection d’organes hématopoïétiques, physiopathologie et enjeux thérapeutiques.</p>
-        <ul class="card__meta">
-          <li>Wet lab</li><li>Hématopoïèse</li>
-        </ul>
-        <div class="card__actions">
-          <a class="btn btn--sm btn--ghost" href="#posts">Compte rendu</a>
-        </div>
-      </article>
-
-      <article class="card" data-tags="ml prod">
-        <h3>Notes “IA en santé”</h3>
-        <p class="card__desc">Synthèses personnelles orientées décision : limites, risques, cas d’usage prioritaires en R&D et clinique.</p>
-        <ul class="card__meta">
-          <li>Policy-aware</li><li>Éthique</li>
-        </ul>
-        <div class="card__actions">
-          <a class="btn btn--sm btn--ghost" href="#posts">Lire</a>
-        </div>
-      </article>
+      -->
     </div>
+
+    <p class="muted"><em><!-- TODO: phrase si aucun projet publié pour l’instant (sinon supprime) -->Aucun projet publié pour le moment.</em></p>
   </section>
 
   <section id="posts" class="section">
     <h2>Réflexions & notes de lecture</h2>
-    <p class="muted">Sélection courte (500–900 mots). Objectif : clarifier, prioriser, décider.</p>
+    <p class="muted">Sélection courte (500–900 mots). <!-- TODO: ajuster si besoin --></p>
     <div id="postList" class="list"></div>
   </section>
 
   <section id="contact" class="section section--grid">
     <h2>Contact</h2>
-    <p>
-      Intéressé par une collaboration, un stage ou un échange sur la stratégie IA en génétique ?
-      Écrivez-moi directement ou réservez un créneau d’appel.
-    </p>
+    <p><!-- TODO: phrase d’appel (collaboration, stage, échange) --></p>
     <div class="contact__grid">
-      <a class="btn" id="copyEmail" data-email="contact@tonnom.com">📧 Copier mon email</a>
-      <a class="btn btn--ghost" href="mailto:contact@tonnom.com">Ouvrir votre email</a>
-      <a class="btn btn--ghost" href="https://www.linkedin.com/in/tonprofil" target="_blank" rel="noreferrer">LinkedIn</a>
-      <a class="btn btn--ghost" href="https://github.com/tonpseudo" target="_blank" rel="noreferrer">GitHub</a>
+      <a class="btn" id="copyEmail" data-email="<!-- TODO: email pro -->">📧 Copier mon email</a>
+      <a class="btn btn--ghost" href="mailto:<!-- TODO: email pro -->">Ouvrir votre email</a>
+      <a class="btn btn--ghost" href="https://www.linkedin.com/in/<!-- TODO -->" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a class="btn btn--ghost" href="https://github.com/<!-- TODO -->" target="_blank" rel="noreferrer">GitHub</a>
     </div>
   </section>
 
   <footer class="site-footer">
-    <small>© <span id="year"></span> Robin — Génétique × IA. Fait avec HTML/CSS/JS. </small>
+    <small>© <span id="year"></span> <!-- TODO: Votre nom --> — Portfolio. </small>
     <a class="muted" href="#home">Haut de page ↑</a>
   </footer>
 
