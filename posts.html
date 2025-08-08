@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><!-- TODO: Titre article --> — <!-- TODO: Nom blog --></title>
+  <meta name="description" content="<!-- TODO: résumé 150–160 caractères -->" />
+  <link rel="icon" href="assets/og.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <meta property="og:title" content="<!-- TODO: Titre article -->" />
+  <meta property="og:description" content="<!-- TODO -->" />
+  <meta property="og:image" content="assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body>
+  <a class="skip" href="#main">Aller au contenu</a>
+  <header class="header">
+    <nav class="nav">
+      <a class="logo" href="index.html">← Blog</a>
+      <ul class="nav__menu">
+        <li><a href="cv.html">CV</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="container article">
+    <article itemscope itemtype="https://schema.org/Article">
+      <header class="article__head">
+        <h1 itemprop="headline"><!-- TODO: Titre article --></h1>
+        <p class="muted"><time datetime="2025-08-08" itemprop="datePublished">8 août 2025</time> · <span itemprop="about"><!-- TODO: Tags --></span></p>
+      </header>
+
+      <div class="prose" itemprop="articleBody">
+        <!-- TODO: Votre contenu HTML (titres h2/h3, listes, <figure>, etc.) -->
+        <p>Contenu à venir.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <small>© <span id="year"></span> <!-- TODO: Votre nom -->.</small>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
