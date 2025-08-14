@@ -193,6 +193,18 @@ async function loadPost(){
     relEl.appendChild(a);
   });
 
+  const ld = {
+    "@context":"https://schema.org",
+    "@type":"Article",
+    "headline": post.title,
+    "description": post.excerpt || post.title,
+    "datePublished": post.date,
+    "author": { "@type":"Person", "name":"Robin" },
+    "mainEntityOfPage": location.href
+  };
+  const ldEl=document.getElementById('ld-article');
+  if(ldEl) ldEl.textContent=JSON.stringify(ld,null,2);
+
   function escapeHtml(s){ return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
 }
 loadPost();
