@@ -1,0 +1,16 @@
+name: Generate RSS and Sitemap
+on: { push: { branches: [ "main" ] } }
+permissions: { contents: write }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Generate feeds
+        env: { SITE_URL: ${{ secrets.SITE_URL }} }
+        run: node build.js
+      - name: Commit feeds
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with: { commit_message: "chore: update rss.xml & sitemap.xml" }
