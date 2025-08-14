@@ -20,8 +20,12 @@ async function loadPosts(){
   const tagSelect = document.getElementById('tag-filter');
   const searchInput = document.getElementById('search');
   const tagPills = document.getElementById('tag-pills');
+  const resultCount = document.getElementById('result-count');
   if(!listEl && !latestEl){ return; }
   const res = await fetch('posts.json'); const posts = await res.json();
+  const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'');
+  const urlTag = new URLSearchParams(location.search).get('tag')||'';
+
   // Build tags for select
   if(tagSelect){
     const tags = Array.from(new Set(posts.flatMap(p => p.tags))).sort();
@@ -31,7 +35,7 @@ async function loadPosts(){
   if(tagPills){
     const counts = posts.flatMap(p => p.tags).reduce((a,t)=>{a[t]=(a[t]||0)+1; return a;},{});
     const top = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([t])=>t);
-    top.forEach(t=>{ const b = document.createElement('button'); b.type='button'; b.className='tag-pill'; b.dataset.tag=t; b.textContent=t; tagPills.appendChild(b); });
+    top.forEach(t=>{ const b = document.createElement('button'); b.type='button'; b.className='tag-pill'+(t===urlTag?' active':''); b.dataset.tag=t; b.textContent=t; tagPills.appendChild(b); });
   }
   // Latest on home
   if(latestEl){
@@ -40,8 +44,7 @@ async function loadPosts(){
   }
   // Listing page with paging
   if(listEl){
-    const params = new URLSearchParams(location.search);
-    let page = 1, perPage = 9, currentTag = params.get('tag') || '', q = '';
+    let page = 1, perPage = 9, currentTag = urlTag, q = '', qWords = [];
     if(tagSelect){ tagSelect.value = currentTag; }
     const button = document.getElementById('load-more');
     function updatePills(){
@@ -50,24 +53,36 @@ async function loadPosts(){
     }
     function render(){
       listEl.innerHTML = '';
-      let filtered = posts.filter(p => (!currentTag || p.tags.includes(currentTag)) && (!q || (p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q))));
+      const filtered = posts
+        .filter(p => !currentTag || p.tags.includes(currentTag))
+        .map(p => {
+          const hay = norm(p.title + ' ' + p.excerpt);
+          const score = qWords.reduce((s,w)=>s + (hay.includes(w)?1:0),0);
+          return { ...p, score };
+        })
+        .filter(p => qWords.length ? p.score > 0 : true)
+        .sort((a,b)=>{
+          if(qWords.length && b.score !== a.score) return b.score - a.score;
+          return new Date(b.date) - new Date(a.date);
+        });
       const pageItems = filtered.slice(0, page*perPage);
-      pageItems.forEach(p => listEl.appendChild(card(p, q)));
+      pageItems.forEach(p => listEl.appendChild(card(p, qWords)));
       button.style.display = (filtered.length > page*perPage) ? 'inline-flex' : 'none';
+      if(resultCount){ resultCount.textContent = `${filtered.length} résultats`; }
       updatePills();
     }
     tagSelect?.addEventListener('change', (e)=>{ currentTag = e.target.value; page=1; render(); });
     tagPills?.addEventListener('click', (e)=>{ const t = e.target.closest('.tag-pill'); if(!t) return; currentTag = t.dataset.tag; if(tagSelect) tagSelect.value = currentTag; page=1; render(); });
-    searchInput?.addEventListener('input', (e)=>{ q = (e.target.value||'').toLowerCase(); page=1; render(); });
+    searchInput?.addEventListener('input', (e)=>{ q = e.target.value||''; qWords = norm(q).split(/\s+/).filter(Boolean); page=1; render(); });
     document.getElementById('load-more')?.addEventListener('click', ()=>{ page++; render(); });
     render();
   }
 
-  function card(p, q=''){
+  function card(p, qWords=[]){
     const el = document.createElement('article');
     el.className = 'card';
-    const title = highlight(p.title, q);
-    const excerpt = highlight(p.excerpt, q);
+    const title = highlight(p.title, qWords);
+    const excerpt = highlight(p.excerpt, qWords);
     el.innerHTML = `
       <div class="meta">${p.date} • ${p.tags.join(', ')}</div>
       <h3><a href="post.html?id=${encodeURIComponent(p.id)}">${title}</a></h3>
@@ -77,14 +92,37 @@ async function loadPosts(){
     return el;
   }
 
-  function highlight(text, q){
-    if(!q) return text;
-    const re = new RegExp(`(${escapeRegExp(q)})`, 'gi');
-    return text.replace(re,'<mark>$1</mark>');
-  }
-
-  function escapeRegExp(str){
-    return str.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  function highlight(text, qWords){
+    if(!qWords.length) return text;
+    const normText = norm(text);
+    const ranges = [];
+    for(const w of qWords){
+      let start = 0;
+      while(true){
+        const idx = normText.indexOf(w, start);
+        if(idx === -1) break;
+        ranges.push({start:idx, end:idx + w.length});
+        start = idx + w.length;
+      }
+    }
+    if(!ranges.length) return text;
+    ranges.sort((a,b)=>a.start-b.start);
+    const merged = [];
+    for(const r of ranges){
+      const last = merged[merged.length-1];
+      if(last && r.start < last.end){
+        last.end = Math.max(last.end, r.end);
+      }else{
+        merged.push({...r});
+      }
+    }
+    let out = '', lastIdx = 0;
+    for(const m of merged){
+      out += text.slice(lastIdx, m.start) + '<mark>' + text.slice(m.start, m.end) + '</mark>';
+      lastIdx = m.end;
+    }
+    out += text.slice(lastIdx);
+    return out;
   }
 }
 loadPosts();
