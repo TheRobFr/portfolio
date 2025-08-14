@@ -86,3 +86,7 @@ img{max-width:100%; display:block}
   .contact{grid-template-columns:1fr}
   .menu{display:none}
 }
+
+.progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg,var(--brand),var(--accent)); z-index: 1000; }
+pre { position: relative; }
+.copy-btn { position: absolute; top: 8px; right: 8px; padding: 6px 10px; border-radius: 10px; border: 1px solid color-mix(in oklab, var(--text) 15%, transparent); background: var(--surface); cursor: pointer; }
