@@ -100,7 +100,17 @@ async function loadPost(){
   document.getElementById('post-title').textContent = post.title;
   document.getElementById('post-meta').textContent = `${post.date} • ${post.tags.join(', ')}`;
   const cover = document.getElementById('post-cover');
-  if(post.cover){ cover.style.backgroundImage = `url(${post.cover})`; cover.style.backgroundSize = 'cover'; cover.style.backgroundPosition = 'center'; }
+  if(post.cover){
+    const img = document.createElement('img');
+    img.src = post.cover;
+    img.loading = 'lazy';
+    img.alt = '';
+    img.style.borderRadius = '18px';
+    img.style.width = '100%';
+    img.style.height = 'auto';
+    cover.innerHTML = '';
+    cover.appendChild(img);
+  }
   // Render markdown-lite (support basic paragraphs + code fence)
   const contentEl = document.getElementById('post-content');
   contentEl.innerHTML = post.content.split('\n\n').map(block => {
