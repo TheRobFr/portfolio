@@ -11,7 +11,7 @@
   <meta property="og:title" content="Contact — Robin" />
   <meta property="og:description" content="Formulaire de contact minimal et liens sociaux." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://dummyimage.com/1200x630/0f172a/ffffff&text=Contact+—+Robin" />
+  <meta property="og:image" content="https://dummyimage.com/1200x630/0f172a/ffffff.webp&text=Contact+—+Robin" />
   <meta name="twitter:card" content="summary_large_image" />
   <script type="application/ld+json">
   {
@@ -25,9 +25,16 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="styles.min.css">
-  <link rel="stylesheet" href="styles.min.css">
-  <script defer src="script.min.js"></script>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@700&display=swap"></noscript>
+  <style>
+    :root{--font-base:'Inter',system-ui,sans-serif;--font-accent:'Space Grotesk',sans-serif;--bg:#0e1117;--text:#f1f5f9;}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-base);}
+    .container{max-width:72rem;margin:0 auto;padding:0 1rem;}
+    .site-header{position:sticky;top:0;background:var(--bg);}
+  </style>
+  <link rel="preload" as="style" href="styles.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="styles.min.css"></noscript>
 </head>
 
 <body>
@@ -81,5 +88,6 @@
       </ul>
     </div>
   </footer>
+  <script defer src="script.min.js"></script>
 </body>
 </html>
