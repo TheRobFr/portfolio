@@ -1,0 +1,18 @@
+name: Minify assets
+on: { push: { branches: [ "main" ] } }
+permissions: { contents: write }
+jobs:
+  minify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm i -g terser clean-css-cli
+      - run: terser script.js -o script.min.js --compress --mangle
+      - run: cleancss -o styles.min.css styles.css
+      - run: |
+          sed -i 's/script\.js/script.min.js/' index.html blog.html post.html portfolio.html contact.html
+          sed -i 's/styles\.css/styles.min.css/' index.html blog.html post.html portfolio.html contact.html
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with: { commit_message: "chore: minify assets" }
