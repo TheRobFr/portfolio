@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Article — Robin</title>
+  <meta name="description" content="Lecture d’un article du blog (statique, JSON)." />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Article — Robin" />
+  <meta property="og:description" content="Lecture d’un article du blog (statique, JSON)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://dummyimage.com/1200x630/0f172a/ffffff&text=Article+—+Robin" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Robin",
+    "description": "Lecture d’un article du blog (statique, JSON).",
+    "url": "https://example.github.io/",
+    "sameAs": ["https://www.linkedin.com/", "https://github.com/"]
+  }
+  </script>
+  <link rel="preload" href="styles.css" as="style">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="index.html" class="logo">Robin<span>•AI&Genetics</span></a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Changer le thème">◐</button>
+      <ul class="menu" role="list">
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="main" class="container">
+
+<article id="post-article" class="prose">
+  <p class="back"><a href="blog.html">← Retour au blog</a></p>
+  <h1 id="post-title"></h1>
+  <p id="post-meta" class="meta"></p>
+  <div id="post-cover" class="cover"></div>
+  <div id="post-content"></div>
+  <hr>
+  <section aria-labelledby="more-like-this">
+    <h2 id="more-like-this">À lire ensuite</h2>
+    <div id="related" class="grid cards-grid"></div>
+  </section>
+</article>
+
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>© 2025 Robin — Génétique × IA. Construit à la main, inspiré par Framer.</p>
+      <ul role="list" class="social">
+        <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="mailto:contact@example.com">Email</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

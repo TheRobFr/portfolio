@@ -1,0 +1,39 @@
+[
+  {
+    "id": "intro",
+    "title": "Pourquoi un blog Génétique × IA ?",
+    "excerpt": "Ce blog documente mon apprentissage à l’interface biologie et intelligence artificielle — avec un souci d’impact réel.",
+    "date": "2025-08-14",
+    "tags": [
+      "IA",
+      "Génétique",
+      "Carrière"
+    ],
+    "cover": "",
+    "content": "Bienvenue !\\n\\nJ’utiliserai cet espace pour des notes de lecture, des mini-guides, et des retours d’expérience.\\n\\n```bash\\n# Exemple de bloc code affiché joliment\\necho 'Hello world'\\n```"
+  },
+  {
+    "id": "omics-pipeline",
+    "title": "De zéro à un pipeline omique reproductible",
+    "excerpt": "Quelques principes pour structurer un petit pipeline d’analyse omique reproductible et partageable.",
+    "date": "2025-08-14",
+    "tags": [
+      "Omics",
+      "Reproductibilité"
+    ],
+    "cover": "",
+    "content": "Objectifs : clarté, reproductibilité, partage.\\n\\n1. Définir l’objectif.\\n\\n2. Structurer le repo.\\n\\n3. Rendre l’exécution déterministe."
+  },
+  {
+    "id": "ai-reading",
+    "title": "Lire mieux et plus vite la littérature IA",
+    "excerpt": "Méthode de lecture active, gestion des résumés, et prise de notes connectée.",
+    "date": "2025-08-14",
+    "tags": [
+      "IA",
+      "Méthodo"
+    ],
+    "cover": "",
+    "content": "La masse d’articles impose une stratégie : filtrer, absorber, relier."
+  }
+]
