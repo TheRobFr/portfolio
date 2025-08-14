@@ -96,3 +96,17 @@ async function loadPost(){
   function escapeHtml(s){ return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
 }
 loadPost();
+(function prefetchOnHover(){
+  const canPrefetch = 'relList' in HTMLLinkElement.prototype && HTMLLinkElement.prototype.relList.supports?.('prefetch');
+  if(!canPrefetch) return;
+  const isInternal = url => {
+    try{ const u = new URL(url, location.href); return u.origin === location.origin; }catch{return false;}
+  };
+  document.addEventListener('mouseover', e => {
+    const a = e.target.closest('a[href]');
+    if(!a || !isInternal(a.href)) return;
+    const link = document.createElement('link');
+    link.rel='prefetch'; link.href=a.href; link.as='document';
+    document.head.appendChild(link);
+  }, {passive:true});
+})();
