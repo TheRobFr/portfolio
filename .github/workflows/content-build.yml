@@ -1,0 +1,14 @@
+name: Build content
+on: { push: { branches: [ "main" ] } }
+permissions: { contents: write }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: node md2json.js
+      - run: node build-posts.js || true
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with: { commit_message: "content: regenerate posts.json & static posts" }
