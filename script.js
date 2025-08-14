@@ -137,3 +137,5 @@ loadPost();
     document.head.appendChild(link);
   }, {passive:true});
 })();
+
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
