@@ -84,6 +84,8 @@ img{max-width:100%; display:block}
 .site-footer{margin-top:40px; border-top:1px solid color-mix(in oklab, var(--text) 15%, transparent)}
 .footer-grid{display:flex; justify-content:space-between; align-items:center; gap:12px}
 .social{display:flex; gap:12px; list-style:none; padding:0; margin:0}
+.share{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.share a{padding:8px 12px;border-radius:10px;border:1px solid color-mix(in oklab,var(--text) 15%, transparent)}
 .back a{opacity:.8}
 @media (max-width: 860px){
   .contact{grid-template-columns:1fr}

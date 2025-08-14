@@ -68,11 +68,13 @@ async function loadPosts(){
     el.className = 'card';
     const title = highlight(p.title, q);
     const excerpt = highlight(p.excerpt, q);
+    const also = posts.find(o => o.id !== p.id && o.tags.some(t => p.tags.includes(t)));
     el.innerHTML = `
       <div class="meta">${p.date} • ${p.tags.join(', ')}</div>
       <h3><a href="post.html?id=${encodeURIComponent(p.id)}">${title}</a></h3>
       <p>${excerpt}</p>
       <a class="arrow" href="post.html?id=${encodeURIComponent(p.id)}">Lire →</a>
+      ${also ? `<div class="meta"><a href="post.html?id=${encodeURIComponent(also.id)}">${also.title}</a></div>` : ''}
     `;
     return el;
   }
@@ -112,13 +114,33 @@ async function loadPost(){
   }).join('');
 
   // Related
-  const related = data.filter(p => p.id !== post.id && p.tags.some(t => post.tags.includes(t))).slice(0,3);
+  let related = data.filter(p => p.id !== post.id && p.tags.some(t => post.tags.includes(t)));
+  if(related.length < 3){
+    const others = data.filter(p => p.id !== post.id && !related.includes(p));
+    while(related.length < 3 && others.length){
+      const r = others.splice(Math.floor(Math.random()*others.length),1)[0];
+      related.push(r);
+    }
+  }
+  related = related.slice(0,3);
   const relEl = document.getElementById('related'); relEl.innerHTML = '';
   related.forEach(p => {
     const a = document.createElement('article'); a.className='card';
     a.innerHTML = `<h3><a href="post.html?id=${encodeURIComponent(p.id)}">${p.title}</a></h3><p class="meta">${p.date} • ${p.tags.join(', ')}</p>`;
     relEl.appendChild(a);
   });
+
+  const cta=document.getElementById('post-cta');
+  if(cta){
+    cta.innerHTML=`<p>Envie de collaborer ou proposer un stage ? <a class="btn" href="contact.html">Me contacter</a></p>`;
+    const share=document.createElement('div'); share.className='share';
+    const u=encodeURIComponent(location.href), t=encodeURIComponent(post.title);
+    share.innerHTML = `
+    <a href="https://twitter.com/intent/tweet?url=${u}&text=${t}" target="_blank" rel="noopener">Partager sur X</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${u}" target="_blank" rel="noopener">Partager sur LinkedIn</a>
+  `;
+    cta.appendChild(share);
+  }
 
   function escapeHtml(s){ return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
 }
