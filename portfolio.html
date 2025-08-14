@@ -23,17 +23,21 @@
     "sameAs": ["https://www.linkedin.com/", "https://github.com/"]
   }
   </script>
-  <link rel="preload" as="style" href="styles.min.css">
-  <link rel="stylesheet" href="styles.min.css">
-  <script defer src="script.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
 </head>
 
 <body>
   <a class="skip-link" href="#main">Aller au contenu</a>
+  <div class="progress" id="scroll-progress"></div>
   <header class="site-header">
     <nav class="nav container">
       <a href="index.html" class="logo">Robin<span>•AI&Genetics</span></a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Changer le thème">◐</button>
+      <button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
       <ul class="menu" role="list">
         <li><a href="blog.html">Blog</a></li>
         <li><a href="portfolio.html">Portfolio</a></li>
