@@ -61,21 +61,23 @@
   </ol>
 </section>
 
-<section>
+<section id="projects">
   <h2>Projets</h2>
-  <div class="grid cards-grid" id="projects">
-    <article class="card">
-      <h3>Pipeline scRNA-seq éducatif</h3>
-      <p>De la QC au clustering (Scanpy), visualisations UMAP, annotations basiques.</p>
-      <a class="arrow" href="#" aria-disabled="true">Bientôt</a>
-    </article>
-    <article class="card">
-      <h3>Exploration omique multimodale</h3>
-      <p>Notebook démonstrateur : intégration transcriptome + image.</p>
-      <a class="arrow" href="#" aria-disabled="true">Bientôt</a>
-    </article>
+  <div class="filters">
+    <button class="filter-btn active" data-cat="all">Tous</button>
+    <button class="filter-btn" data-cat="Génomique">Génomique</button>
+    <button class="filter-btn" data-cat="IA">IA</button>
+    <button class="filter-btn" data-cat="Bioinformatique">Bioinformatique</button>
   </div>
+  <div id="project-grid" class="masonry"></div>
 </section>
+
+<div id="project-modal" class="modal" hidden>
+  <div class="modal-content card">
+    <button class="modal-close" aria-label="Fermer">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
 
 <section>
   <h2>Publications & Présentations</h2>

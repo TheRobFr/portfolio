@@ -13,6 +13,9 @@
     initScrollProgress();
     initHero();
     initSectionObserver();
+    initSkills();
+    initProjects();
+    initTimeline();
     initPosts();
     initPostPage();
     initPrefetch();
@@ -26,15 +29,28 @@
     });
   }
 
+  const tagColors = {};
+  function colorFor(tag) {
+    if (!tagColors[tag]) {
+      const hue = Object.keys(tagColors).length * 60 % 360;
+      tagColors[tag] = `hsl(${hue} 70% 50%)`;
+    }
+    return tagColors[tag];
+  }
+
   function card(p, qWords = []) {
     const el = document.createElement('article');
     el.className = 'card';
     const title = highlight(p.title, qWords);
     const excerpt = highlight(p.excerpt, qWords);
+    const words = (p.content || '').match(/\S+/g);
+    const mins = Math.max(1, Math.round((words ? words.length : 0) / 220));
+    const tags = p.tags.map(t => `<span class="tag" style="--color:${colorFor(t)}">${t}</span>`).join(' ');
     el.innerHTML = `
-      <div class="meta">${p.date} • ${p.tags.join(', ')}</div>
+      <div class="meta">${p.date} • ${mins} min</div>
       <h3><a href="post.html?id=${encodeURIComponent(p.id)}">${title}</a></h3>
       <p>${excerpt}</p>
+      <div class="tags">${tags}</div>
       <a class="arrow" href="post.html?id=${encodeURIComponent(p.id)}">Lire →</a>
     `;
     return el;
@@ -76,6 +92,8 @@
     const listEl = $('posts');
     const latestEl = $('latest-posts');
     if (!listEl && !latestEl) return;
+
+    if (listEl) listEl.innerHTML = '<p class="meta">Chargement…</p>';
 
     const res = await fetch('posts.json');
     const posts = await res.json();
@@ -243,6 +261,72 @@
     };
     const ldEl = $('ld-article');
     if (ldEl) ldEl.textContent = JSON.stringify(ld, null, 2);
+  }
+
+  function initSkills() {
+    const bars = document.querySelectorAll('.skill .bar span');
+    if (!bars.length) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.width = e.target.dataset.level + '%';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    bars.forEach(b => io.observe(b));
+  }
+
+  function initTimeline() {
+    const items = document.querySelectorAll('.timeline li');
+    if (!items.length) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => e.target.classList.toggle('active', e.isIntersecting));
+    }, { threshold: 0.6 });
+    items.forEach(i => io.observe(i));
+  }
+
+  function initProjects() {
+    const grid = $('project-grid');
+    if (!grid) return;
+    const filters = document.querySelectorAll('.filter-btn');
+    const modal = $('project-modal');
+    const body = $('modal-body');
+    const close = modal.querySelector('.modal-close');
+    const projects = [
+      {title:'Pipeline scRNA-seq éducatif',category:'Génomique',img:'https://dummyimage.com/600x400/161b22/f1f5f9&text=scRNA',methodology:'De la QC au clustering avec Scanpy',stack:['Python','Scanpy'],results:'+40% de temps gagné',github:'#',demo:'#'},
+      {title:'Exploration omique multimodale',category:'Bioinformatique',img:'https://dummyimage.com/600x400/161b22/f1f5f9&text=Omics',methodology:'Intégration transcriptome + image',stack:['Python','PyTorch'],results:'Proof of concept',github:'#',demo:'#'},
+      {title:'Classifieur IA clinique',category:'IA',img:'https://dummyimage.com/600x400/161b22/f1f5f9&text=IA',methodology:'Modèle léger interprétable',stack:['Python','scikit-learn'],results:'AUC 0.92',github:'#',demo:'#'}
+    ];
+
+    function render(list) {
+      grid.innerHTML = '';
+      list.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'card project-card';
+        card.dataset.cat = p.category;
+        card.innerHTML = `<img src="${p.img}" alt=""><h3>${p.title}</h3>`;
+        card.addEventListener('click', () => open(p));
+        grid.appendChild(card);
+      });
+    }
+
+    function open(p) {
+      body.innerHTML = `<h3>${p.title}</h3><p>${p.methodology}</p><div class="tags">${p.stack.map(s=>`<span class=\"tag\" style=\"--color:${colorFor(s)}\">${s}</span>`).join(' ')}</div><p>${p.results}</p><p><a href="${p.github}">GitHub</a> • <a href="${p.demo}">Démo</a></p><img src="${p.img}" alt="">`;
+      modal.hidden = false;
+    }
+
+    close.addEventListener('click', () => modal.hidden = true);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.hidden = true; });
+
+    filters.forEach(btn => btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      render(cat === 'all' ? projects : projects.filter(p => p.category === cat));
+    }));
+
+    render(projects);
   }
 
   function initPrefetch() {

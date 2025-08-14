@@ -156,6 +156,27 @@ img{max-width:100%;display:block}
 .tag-pills{display:flex;flex-wrap:wrap;gap:var(--space-1);margin:var(--space-1) 0}
 .tag-pill{padding:var(--space-1) var(--space-2);border-radius:999px;border:var(--border);cursor:pointer}
 .tag-pill.active{background:color-mix(in oklab,var(--brand) 25%,transparent)}
+.tag{display:inline-block;padding:2px 6px;border-radius:6px;background:var(--color);color:#fff;font-size:.8rem;margin-right:4px}
+.tags{margin-top:var(--space-1)}
+.filter-btn{padding:var(--space-1) var(--space-2);border:var(--border);background:var(--surface);border-radius:999px;cursor:pointer;transition:background .3s}
+.filter-btn.active,.filter-btn:hover{background:color-mix(in oklab,var(--brand) 25%,transparent)}
+.masonry{columns:320px;column-gap:var(--space-2)}
+.masonry .project-card{display:inline-block;width:100%;margin:0 0 var(--space-2);cursor:pointer;overflow:hidden}
+.project-card img{width:100%;border-radius:var(--radius);display:block;transition:transform .3s,box-shadow .3s}
+.project-card:hover img{transform:scale(1.05);box-shadow:0 6px 20px rgba(56,189,248,.4)}
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:1000}
+.modal-content{max-width:700px;width:90%;position:relative}
+.modal-close{position:absolute;top:8px;right:8px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--text)}
+.modal[hidden]{display:none}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-4)}
+.skills .skill{margin:var(--space-1) 0}
+.skill .bar{height:8px;background:color-mix(in oklab,var(--text) 20%,transparent);border-radius:999px;overflow:hidden}
+.skill .bar span{display:block;height:100%;width:0;background:var(--brand);border-radius:999px;transition:width 1s}
+.formation-cards .formation{display:flex;align-items:center;gap:var(--space-2)}
+.formation img{width:60px;height:60px;border-radius:8px;object-fit:cover}
+.timeline li{opacity:.6;transform:translateX(-10px);transition:opacity .6s,transform .6s}
+.timeline li.active{opacity:1;transform:none}
+.objectives{margin-top:var(--space-4)}
 .meta{color:var(--muted);font-size:.95rem}
 .cover{aspect-ratio:16/9;border-radius:18px;background:color-mix(in oklab,var(--brand) 15%,transparent);margin:var(--space-2) 0}
 .prose{max-width:760px;margin-inline:auto}
