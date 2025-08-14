@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+function messageCard(text){
+  const el = document.createElement('article');
+  el.className = 'card';
+  el.textContent = text;
+  return el;
+}
+
 // Blog listing + search + tags + pagination
 async function loadPosts(){
   const listEl = document.getElementById('posts');
@@ -21,7 +28,21 @@ async function loadPosts(){
   const searchInput = document.getElementById('search');
   const tagPills = document.getElementById('tag-pills');
   if(!listEl && !latestEl){ return; }
-  const res = await fetch('posts.json'); const posts = await res.json();
+  let posts = [];
+  try{
+    const res = await fetch('posts.json', {cache:'no-store'});
+    posts = await res.json();
+    if(!Array.isArray(posts)) throw new Error('Invalid JSON');
+  }catch{
+    const target = listEl || latestEl;
+    target?.appendChild(messageCard('Impossible de charger les articles.'));
+    return;
+  }
+  if(posts.length === 0){
+    if(listEl) listEl.appendChild(messageCard('Aucun article...'));
+    if(latestEl) latestEl.appendChild(messageCard('Aucun article...'));
+    return;
+  }
   // Build tags for select
   if(tagSelect){
     const tags = Array.from(new Set(posts.flatMap(p => p.tags))).sort();
@@ -51,6 +72,12 @@ async function loadPosts(){
     function render(){
       listEl.innerHTML = '';
       let filtered = posts.filter(p => (!currentTag || p.tags.includes(currentTag)) && (!q || (p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q))));
+      if(filtered.length === 0){
+        listEl.appendChild(messageCard(`Aucun résultat pour « ${q || currentTag} »`));
+        button.style.display = 'none';
+        updatePills();
+        return;
+      }
       const pageItems = filtered.slice(0, page*perPage);
       pageItems.forEach(p => listEl.appendChild(card(p, q)));
       button.style.display = (filtered.length > page*perPage) ? 'inline-flex' : 'none';
@@ -94,8 +121,24 @@ async function loadPost(){
   const wrap = document.getElementById('post-article'); if(!wrap) return;
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
-  const data = await (await fetch('posts.json')).json();
+  let data = [];
+  try{
+    const res = await fetch('posts.json', {cache:'no-store'});
+    data = await res.json();
+    if(!Array.isArray(data)) throw new Error('Invalid JSON');
+  }catch{
+    wrap.appendChild(messageCard("Impossible de charger l'article."));
+    return;
+  }
+  if(data.length === 0){
+    wrap.appendChild(messageCard('Aucun article...'));
+    return;
+  }
   const post = data.find(p => p.id === id) || data[0];
+  if(!post){
+    wrap.appendChild(messageCard("Article introuvable."));
+    return;
+  }
   document.title = post.title + " — Robin";
   document.getElementById('post-title').textContent = post.title;
   document.getElementById('post-meta').textContent = `${post.date} • ${post.tags.join(', ')}`;
