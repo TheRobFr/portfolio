@@ -19,12 +19,19 @@ async function loadPosts(){
   const latestEl = document.getElementById('latest-posts');
   const tagSelect = document.getElementById('tag-filter');
   const searchInput = document.getElementById('search');
+  const tagPills = document.getElementById('tag-pills');
   if(!listEl && !latestEl){ return; }
   const res = await fetch('posts.json'); const posts = await res.json();
-  // Build tags
+  // Build tags for select
   if(tagSelect){
     const tags = Array.from(new Set(posts.flatMap(p => p.tags))).sort();
     for(const t of tags){ const o = document.createElement('option'); o.value = t; o.textContent = t; tagSelect.appendChild(o); }
+  }
+  // Build top tag pills
+  if(tagPills){
+    const counts = posts.flatMap(p => p.tags).reduce((a,t)=>{a[t]=(a[t]||0)+1; return a;},{});
+    const top = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([t])=>t);
+    top.forEach(t=>{ const b = document.createElement('button'); b.type='button'; b.className='tag-pill'; b.dataset.tag=t; b.textContent=t; tagPills.appendChild(b); });
   }
   // Latest on home
   if(latestEl){
@@ -33,31 +40,51 @@ async function loadPosts(){
   }
   // Listing page with paging
   if(listEl){
-    let page = 1, perPage = 9, currentTag = '', q = '';
+    const params = new URLSearchParams(location.search);
+    let page = 1, perPage = 9, currentTag = params.get('tag') || '', q = '';
+    if(tagSelect){ tagSelect.value = currentTag; }
     const button = document.getElementById('load-more');
+    function updatePills(){
+      if(!tagPills) return;
+      [...tagPills.children].forEach(b=>b.classList.toggle('active', b.dataset.tag===currentTag));
+    }
     function render(){
       listEl.innerHTML = '';
       let filtered = posts.filter(p => (!currentTag || p.tags.includes(currentTag)) && (!q || (p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q))));
       const pageItems = filtered.slice(0, page*perPage);
-      pageItems.forEach(p => listEl.appendChild(card(p)));
+      pageItems.forEach(p => listEl.appendChild(card(p, q)));
       button.style.display = (filtered.length > page*perPage) ? 'inline-flex' : 'none';
+      updatePills();
     }
     tagSelect?.addEventListener('change', (e)=>{ currentTag = e.target.value; page=1; render(); });
+    tagPills?.addEventListener('click', (e)=>{ const t = e.target.closest('.tag-pill'); if(!t) return; currentTag = t.dataset.tag; if(tagSelect) tagSelect.value = currentTag; page=1; render(); });
     searchInput?.addEventListener('input', (e)=>{ q = (e.target.value||'').toLowerCase(); page=1; render(); });
     document.getElementById('load-more')?.addEventListener('click', ()=>{ page++; render(); });
     render();
   }
 
-  function card(p){
+  function card(p, q=''){
     const el = document.createElement('article');
     el.className = 'card';
+    const title = highlight(p.title, q);
+    const excerpt = highlight(p.excerpt, q);
     el.innerHTML = `
       <div class="meta">${p.date} • ${p.tags.join(', ')}</div>
-      <h3><a href="post.html?id=${encodeURIComponent(p.id)}">${p.title}</a></h3>
-      <p>${p.excerpt}</p>
+      <h3><a href="post.html?id=${encodeURIComponent(p.id)}">${title}</a></h3>
+      <p>${excerpt}</p>
       <a class="arrow" href="post.html?id=${encodeURIComponent(p.id)}">Lire →</a>
     `;
     return el;
+  }
+
+  function highlight(text, q){
+    if(!q) return text;
+    const re = new RegExp(`(${escapeRegExp(q)})`, 'gi');
+    return text.replace(re,'<mark>$1</mark>');
+  }
+
+  function escapeRegExp(str){
+    return str.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   }
 }
 loadPosts();
